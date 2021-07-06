@@ -2,6 +2,8 @@
 
 This is a guide to install the OPAL demo.
 
+![](https://raw.githubusercontent.com/projekt-opal/opaldata/master/doc/repositories.png)
+
 In the following, replace `localhost` with the domain you're going to use for public access.
 
 Some optional final steps are not included.
@@ -151,6 +153,13 @@ docker-compose up --build -d
 
 You can check the webservice configuration at http://localhost:8081/opalinfo
 
+<!--
+Optional: To check further webservices (listed in [RestAPIController.java](https://github.com/projekt-opal/web-service/blob/master/src/main/java/org/dice_research/opal/webservice/control/RestAPIController.java)), you first have to know an existing dataset URI.
+Get it by using the Elasticsearch API and e.g. [search Elasticsearch for *pdf*](http://localhost:9200/opal/_search?q=pdf&pretty=true) and then use the [dataSet webservice](http://localhost:8081/dataSet?uri=http://projekt-opal.de/dataset/4a5fa1262bfdef570cd334a53521df8b).
+The [geo webservice](http://localhost:8081/getGeoDatasetsHtml?top=51.7&left=8.5&bottom=51.6&right=8.9&urlPrefix=http://localhost:3000/view/datasetView?uri=) requires coordinates.
+-->
+
+
 ### Web User Interface
 
 (Source: https://github.com/projekt-opal/web-ui)
@@ -161,7 +170,11 @@ wget -O web-ui-master.zip https://github.com/projekt-opal/web-ui/archive/refs/he
 unzip web-ui-master.zip ; cd web-ui-master
 ```
 
-Edit the file `webservice/webservice-url.js` to set the URL of the webservices.
+The UI will start at port 3000.
+To change it, edit `docker-compose.yml`.
+
+
+Edit the file `webservice/webservice-url.js` to set the URL of the webservices:
 
 ```shell
 nano webservice/webservice-url.js
@@ -174,6 +187,8 @@ npm install
 npm run build
 npm run start
 ```
+
+Access the UI at http://localhost:3000/
 
 
 
