@@ -2,8 +2,8 @@
 
 This is a guide to install the OPAL demo.
 
-Note: Some optional final steps are not included.  
-Check section [final steps](#final-steps) the last section of this file first to include them during the deployment.
+Note: Some optional final steps are not included.
+Check section [final steps](#final-steps) first to include them during the deployment.
 
 
 
@@ -28,7 +28,6 @@ Required software:
 mkdir /opt/opal-data ; cd /opt/opal-data
 wget -O opaldata-master.zip https://github.com/projekt-opal/opaldata/archive/refs/heads/master.zip
 unzip opaldata-master.zip ; cd opaldata-master/
-nano .env
 ```
 
 Create an *.env* configuration file.
@@ -107,12 +106,15 @@ Afterwards, http://localhost:9200/_cat/indices?v should show the index *opal*.
 mkdir /opt/opal-webservices ; cd /opt/opal-webservices
 wget -O web-service-master.zip https://github.com/projekt-opal/web-service/archive/refs/heads/master.zip
 unzip web-service-master.zip ; cd web-service-master
-nano opal-webservices.properties
 ```
 
 Provide a configuration that is similar to the following lines.  
 Edit the values, if you changed the imported Fusiki data above.  
 The URLs should contain the domain will be open to the public.
+
+```shell
+nano nano src/main/resources/opal-webservices.properties
+```
 
 ```properties
 sparql.endpoint.previous=http://localhost:3030/2020-06/
@@ -136,6 +138,10 @@ Finally, build the webservices component:
 ```shell
 docker-compose up --build -d
 ```
+
+You can check the webservice configuration at http://localhost:8081/opalinfo
+
+
 
 ### Web User Interface
 
