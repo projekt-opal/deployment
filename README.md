@@ -2,7 +2,7 @@
 
 This is a guide to install the OPAL demo.
 
-Note: Some optional final steps are not included.
+Note: Some optional final steps are not included.  
 Check section [final steps](#final-steps) the last section of this file first to include them during the deployment.
 
 
@@ -13,14 +13,14 @@ Required software:
 
 - docker-compose, https://docs.docker.com/compose/install/
 - Java, https://wiki.ubuntuusers.de/Java/Installation/
-- nano (or another editor); wget; zip
 - node, https://github.com/nodesource/distributions
+- nano (or another editor) ; wget ; zip
 
 
 
 ## Elasticsearch and Fuseki
 
-Source: https://github.com/projekt-opal/opaldata
+(Source: https://github.com/projekt-opal/opaldata)
 
 ### Download and configuration
 
@@ -31,7 +31,8 @@ unzip opaldata-master.zip ; cd opaldata-master/
 nano .env
 ```
 
-You can use the following configuration, just add a password:
+Create an *.env* configuration file.
+The following code has to be completed with a password.
 
 ```properties
 FUSEKI_ADMIN_PASSWORD=
@@ -70,7 +71,7 @@ chmod +x get-data.sh ; ./get-data.sh
 
 ### Import data to Elasticsearch
 
-Source: https://github.com/projekt-opal/batch
+(Source: https://github.com/projekt-opal/batch)
 
 The following code imports the ttl files into Elasticsearch in around 10 minutes.
 You have to edit the file *elasticsearch-import.properties* to match your Elasticseach configuration.
@@ -88,11 +89,11 @@ Afterwards, http://localhost:9200/_cat/indices?v should show the index *opal*.
 
 - Open the Fuseki frontend for managing datasets: http://localhost:3030/manage.html
 - Add a new persistent (TDB2) dataset with name *2020-10*
-- Upload the ttl files (edp, govdata, mcloud, mdm) from https://hobbitdata.informatik.uni-leipzig.de/OPAL/OpalGraph/2020-11-18/2020-10/
+    - Upload the ttl files (edp, govdata, mcloud, mdm) from  
+      https://hobbitdata.informatik.uni-leipzig.de/OPAL/OpalGraph/2020-11-18/2020-10/
 - Add a new persistent (TDB2) dataset with name *2020-06*
-- Upload the ttl files (edp, govdata, mcloud, mdm) from https://hobbitdata.informatik.uni-leipzig.de/OPAL/OpalGraph/2020-10-22/2020-06/
-
-
+    - Upload the ttl files (edp, govdata, mcloud, mdm) from  
+      https://hobbitdata.informatik.uni-leipzig.de/OPAL/OpalGraph/2020-10-22/2020-06/
 
 
 
@@ -100,7 +101,7 @@ Afterwards, http://localhost:9200/_cat/indices?v should show the index *opal*.
 
 ### Webservices (TODO, not complete)
 
-Source: https://github.com/projekt-opal/web-service
+(Source: https://github.com/projekt-opal/web-service)
 
 ```shell
 mkdir /opt/opal-webservices ; cd /opt/opal-webservices
@@ -109,8 +110,8 @@ unzip web-service-master.zip ; cd web-service-master
 nano opal-webservices.properties
 ```
 
-Provide a configuration that is similar to the following lines.
-Edit the values, if you changed the imported Fusiki data above.
+Provide a configuration that is similar to the following lines.  
+Edit the values, if you changed the imported Fusiki data above.  
 The URLs should contain the domain will be open to the public.
 
 ```properties
@@ -138,7 +139,7 @@ docker-compose up --build -d
 
 ### Web User Interface
 
-Source: https://github.com/projekt-opal/web-ui
+(Source: https://github.com/projekt-opal/web-ui)
 
 ```shell
 mkdir /opt/opal-webservices ; cd /opt/opal-webservices
