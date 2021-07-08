@@ -72,7 +72,7 @@ chmod +x get-data.sh ; ./get-data.sh
 
 (Source: https://github.com/projekt-opal/batch)
 
-Download the batch component:
+Download the batch component and configuration file:
 
 ```shell
 mkdir /opt/opal-batch ; cd /opt/opal-batch
@@ -80,7 +80,7 @@ wget https://github.com/projekt-opal/batch/releases/download/1.0.4/opal-batch.ja
 wget https://raw.githubusercontent.com/projekt-opal/deployment/main/elasticsearch-import.properties
 ```
 
-You have to edit the file `elasticsearch-import.properties` to match your Elasticseach configuration.
+You only have to edit the file `elasticsearch-import.properties` if you changed your Elasticseach configuration.
 The following code imports the ttl files into Elasticsearch in around 10 minutes.
 
 ```shell
@@ -95,7 +95,7 @@ Afterwards, http://localhost:9200/_cat/indices?v should show millions of documen
 - Add a new persistent (TDB2) dataset with name *2020-10*
 - Add a new persistent (TDB2) dataset with name *2020-06*
 
-Execute the script to import data:
+Execute the script to import data, it takes around 30 minutes:
 
 ```shell
 mkdir /tmp/opal-fuseki-import ; cd /tmp/opal-fuseki-import
@@ -137,13 +137,7 @@ geo.url.prefix=http://localhost:3000/view/datasetView?uri=
 geo.redirect=http://localhost:8081/getGeoDatasetsHtml
 ```
 
-The `.env` file containing the Elasticsearch configuration only has to be modified, if you changed the values before:
-
-```
-ES_INDEX=opal
-OPAL_ELASTICSEARCH_URL=localhost
-OPAL_ELASTICSEARCH_PORT=9200
-```
+The `.env` file containing the Elasticsearch configuration only has to be modified, if you changed the values before.
 
 Finally, build the webservices component:
 
@@ -165,22 +159,20 @@ wget -O web-ui-master.zip https://github.com/projekt-opal/web-ui/archive/refs/he
 unzip web-ui-master.zip ; cd web-ui-master
 ```
 
+Create an `.env` file and set the URL for the webservices created before:
+
+```properties
+BACKEND_ADDRESS=http://localhost:8081/
+```
+
 The UI will start at port 3000.
 To change it, edit `docker-compose.yml`.
 
-
-Edit the file `webservice/webservice-url.js` to set the URL of the webservices:
-
-```shell
-nano webservice/webservice-url.js
-```
-
-Start the UI using Node.js
+Finally, build the UI component:
 
 ```shell
-npm install
-npm run build
-npm run start
+docker-compose build --no-cache
+docker-compose up -d
 ```
 
 Access the UI at http://localhost:3000/
