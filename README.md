@@ -4,10 +4,8 @@ This is a guide to install the OPAL demo.
 
 ![](https://raw.githubusercontent.com/projekt-opal/opaldata/master/doc/repositories.png)
 
-In the following, replace `localhost` with the domain you're going to use for public access.
-
 Some optional final steps are not included.
-Check section [final steps](#final-steps) first to include them during the deployment.
+Check [additional configuration](#additional-configuration) first to include them during the deployment.
 
 
 
@@ -17,7 +15,6 @@ Required software:
 
 - docker-compose (https://docs.docker.com/compose/install/)
 - Java (https://wiki.ubuntuusers.de/Java/Installation/)
-- Node.js (https://github.com/nodesource/distributions)
 - nano (or another editor) ; wget ; zip
 
 
@@ -34,13 +31,10 @@ wget -O opaldata-master.zip https://github.com/projekt-opal/opaldata/archive/ref
 unzip opaldata-master.zip ; cd opaldata-master/
 ```
 
-Create an `.env` configuration file.
-The following code has to be completed with a password.
+Edit the `.env` configuration file and set the `FUSEKI_ADMIN_PASSWORD`:
 
-```properties
-FUSEKI_ADMIN_PASSWORD=
-FUSEKI_JVM_ARGS=-Xmx2g
-ELASTICSEARCH_JAVA_OPTS=-Xmx2g
+```shell
+nano .env
 ```
 
 Build the containers:
@@ -52,7 +46,7 @@ docker-compose up --build -d
 Wait some seconds until opaldata-master_elasticsearch-initialization ended.  
 You can check it via `sudo docker ps -a`.
 
-Afterwards, the backends should be available at addresses similar to:
+Afterwards, the backends should be available at:
 
 - http://localhost:3030/
 - http://localhost:9200/_cat/indices?v
@@ -71,6 +65,8 @@ mkdir /tmp/opal-data ; cd /tmp/opal-data
 wget https://raw.githubusercontent.com/projekt-opal/deployment/main/get-data.sh
 chmod +x get-data.sh ; ./get-data.sh
 ```
+
+
 
 ### Import data to Elasticsearch
 
@@ -91,17 +87,21 @@ The following code imports the ttl files into Elasticsearch in around 10 minutes
 java -jar opal-batch.jar elasticsearch-import.properties
 ```
 
-Afterwards, http://localhost:9200/_cat/indices?v should show the index *opal*.
+Afterwards, http://localhost:9200/_cat/indices?v should show millions of documents for the index *opal*.
 
 ### Import data to Fuseki
 
 - Open the Fuseki frontend for managing datasets: http://localhost:3030/manage.html
 - Add a new persistent (TDB2) dataset with name *2020-10*
-    - Upload the ttl files (edp, govdata, mcloud, mdm) from  
-      https://hobbitdata.informatik.uni-leipzig.de/OPAL/OpalGraph/2020-11-18/2020-10/
 - Add a new persistent (TDB2) dataset with name *2020-06*
-    - Upload the ttl files (edp, govdata, mcloud, mdm) from  
-      https://hobbitdata.informatik.uni-leipzig.de/OPAL/OpalGraph/2020-10-22/2020-06/
+
+Execute the script to import data:
+
+```shell
+mkdir /tmp/opal-fuseki-import ; cd /tmp/opal-fuseki-import
+wget https://raw.githubusercontent.com/projekt-opal/deployment/main/import-fuseki.sh
+chmod +x import-fuseki.sh ; ./import-fuseki.sh
+```
 
 
 
@@ -126,7 +126,7 @@ nano src/main/resources/opal-webservices.properties
 
 ```
 
-Default configuration:
+The values for keys with prefix *geo* will be used from users webbrowsers and require final domains (not localhost):
 
 ```properties
 sparql.endpoint.previous=http://localhost:3030/2020-06/
@@ -137,7 +137,7 @@ geo.url.prefix=http://localhost:3000/view/datasetView?uri=
 geo.redirect=http://localhost:8081/getGeoDatasetsHtml
 ```
 
-Additionally, an `.env` file containing the Elasticsearch configuration is required.
+The `.env` file containing the Elasticsearch configuration only has to be modified, if you changed the values before:
 
 ```
 ES_INDEX=opal
@@ -153,11 +153,6 @@ docker-compose up --build -d
 
 You can check the webservice configuration at http://localhost:8081/opalinfo
 
-<!--
-Optional: To check further webservices (listed in [RestAPIController.java](https://github.com/projekt-opal/web-service/blob/master/src/main/java/org/dice_research/opal/webservice/control/RestAPIController.java)), you first have to know an existing dataset URI.
-Get it by using the Elasticsearch API and e.g. [search Elasticsearch for *pdf*](http://localhost:9200/opal/_search?q=pdf&pretty=true) and then use the [dataSet webservice](http://localhost:8081/dataSet?uri=http://projekt-opal.de/dataset/4a5fa1262bfdef570cd334a53521df8b).
-The [geo webservice](http://localhost:8081/getGeoDatasetsHtml?top=51.7&left=8.5&bottom=51.6&right=8.9&urlPrefix=http://localhost:3000/view/datasetView?uri=) requires coordinates.
--->
 
 
 ### Web User Interface
@@ -192,7 +187,7 @@ Access the UI at http://localhost:3000/
 
 
 
-## Final steps
+## Additional configuration
 
 - Ensure the containers are started after reboots
 - Configure HTTPS, e.g. with https://letsencrypt.org/
