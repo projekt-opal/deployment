@@ -119,25 +119,27 @@ wget -O web-service-master.zip https://github.com/projekt-opal/web-service/archi
 unzip web-service-master.zip ; cd web-service-master
 ```
 
-Edit the configuration file:
-
-```shell
-nano src/main/resources/opal-webservices.properties
-
-```
-
+Edit the `.env` configuration file.
 The values for keys with prefix *geo* will be used from users webbrowsers and require final domains (not localhost):
 
 ```properties
-sparql.endpoint.previous=http://localhost:3030/2020-06/
-sparql.endpoint.previous.title=OPAL 2020-06
-sparql.endpoint.current=http://localhost:3030/2020-10/
-sparql.endpoint.current.title=OPAL 2020-10
-geo.url.prefix=http://localhost:3000/view/datasetView?uri=
-geo.redirect=http://localhost:8081/getGeoDatasetsHtml
-```
+# Elasticsearch configuration
+OPAL_ELASTICSEARCH_URL=localhost
+OPAL_ELASTICSEARCH_PORT=9200
+ES_INDEX=opal
 
-The `.env` file containing the Elasticsearch configuration only has to be modified, if you changed the values before.
+# SPARQL endpoint for previously crawled dataset
+SPARQL_ENDPOINT_PREVIOUS=http://localhost:3030/2020-06/
+
+# SPARQL endpoint for latest crawled dataset
+SPARQL_ENDPOINT_LATEST=http://localhost:3030/2020-10/
+
+# Will be added as parameter 'urlPrefix' in GEO_REDIRECT URL
+GEO_URL_PREFIX=http://localhost:3000/view/datasetView?uri=
+
+# URL to redirect to when map bounding box was selected by user
+GEO_REDIRECT=http://localhost:8081/getGeoDatasetsHtml
+```
 
 Finally, build the webservices component:
 
