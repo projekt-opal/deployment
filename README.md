@@ -2,8 +2,6 @@
 
 This is a guide to install the OPAL demo.
 
-![](https://raw.githubusercontent.com/projekt-opal/opaldata/master/doc/repositories.png)
-
 Some optional final steps are not included.
 Check [additional configuration](#additional-configuration) first to include them during the deployment.
 
