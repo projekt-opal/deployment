@@ -1,7 +1,7 @@
 #!/bin/sh
 
-TTL_OLD="/tmp/opal-data/opal-2020-06/*.ttl"
-TTL_NEW="/tmp/opal-data/opal-2020-10/*.ttl"
+TTL_OLD="/opt/opal-import/ttl/opal-2020-06/*.ttl"
+TTL_NEW="/opt/opal-import/ttl/opal-2020-10/*.ttl"
 
 API_OLD="http://localhost:3030/2020-06/data"
 API_NEW="http://localhost:3030/2020-10/data"

@@ -61,7 +61,7 @@ Download and extract data to temporary directory,
 26 ttl files will be available.
 
 ```shell
-mkdir /tmp/opal-data ; cd /tmp/opal-data
+mkdir -p /opt/opal-import/ttl ; cd /opt/opal-import/ttl
 wget https://raw.githubusercontent.com/projekt-opal/deployment/main/get-data.sh
 chmod +x get-data.sh ; ./get-data.sh
 ```
@@ -75,7 +75,7 @@ chmod +x get-data.sh ; ./get-data.sh
 Download the batch component and configuration file:
 
 ```shell
-mkdir /opt/opal-batch ; cd /opt/opal-batch
+mkdir -p /opt/opal-import/ ; cd /opt/opal-import/
 wget https://github.com/projekt-opal/batch/releases/download/1.0.4/opal-batch.jar
 wget https://raw.githubusercontent.com/projekt-opal/deployment/main/elasticsearch-import.properties
 ```
@@ -98,7 +98,7 @@ Afterwards, http://localhost:9200/_cat/indices?v should show millions of documen
 Execute the script to import data, it takes around 30 minutes:
 
 ```shell
-mkdir /tmp/opal-fuseki-import ; cd /tmp/opal-fuseki-import
+mkdir -p /opt/opal-import/ ; cd /opt/opal-import/
 wget https://raw.githubusercontent.com/projekt-opal/deployment/main/import-fuseki.sh
 chmod +x import-fuseki.sh ; ./import-fuseki.sh
 ```
